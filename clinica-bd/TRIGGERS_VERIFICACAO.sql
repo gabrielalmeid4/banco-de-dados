@@ -245,8 +245,8 @@ BEGIN
             RAISE EXCEPTION 'O valor de consulta do plano não pode ser nulo ou menor que zero.';
         END IF;
 
-        IF NEW.VALOR_INT IS NULL OR NEW.VALOR_INT <= 0 THEN
-            RAISE EXCEPTION 'O valor de internação do plano não pode ser nulo ou menor que zero.';
+        IF NEW.VALOR_INT < 0 THEN
+            RAISE EXCEPTION 'O valor de internação do plano não pode ser menor que zero.';
         END IF;
 
         IF LENGTH(NEW.NOME) > 50 THEN
@@ -346,13 +346,10 @@ CREATE OR REPLACE FUNCTION VERIFICA_INTERNACAO()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
-        IF NEW.DT_INICIO IS NULL THEN
+        IF NEW.DT_INTERNA IS NULL THEN
             RAISE EXCEPTION 'A data de início da internação não pode ser nula.';
         END IF;
 
-        IF NEW.DT_PREV_TERM IS NULL THEN
-            RAISE EXCEPTION 'A data prevista de término da internação não pode ser nula.';
-        END IF;
     END IF;
 
     IF TG_OP = 'DELETE' THEN
@@ -390,9 +387,6 @@ BEGIN
     END IF;
 
     IF TG_OP = 'DELETE' THEN
-        IF EXISTS (SELECT 1 FROM CONSULTA WHERE COD_PAC = OLD.COD_PAC) THEN
-            RAISE EXCEPTION 'Não é possível deletar um procedimento associado a uma consulta.';
-        END IF;
 		    RETURN OLD;
     END IF;
 
