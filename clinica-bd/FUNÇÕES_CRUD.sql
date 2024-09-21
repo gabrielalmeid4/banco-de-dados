@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE FUNCTION INSERIR_LINHA( 
     NOME_TABELA TEXT,
     VALOR1 TEXT DEFAULT NULL,
@@ -39,8 +38,8 @@ BEGIN
 
     IF NOME_TABELA ILIKE 'CONSULTA' THEN
         EXECUTE FORMAT(
-            'SELECT INSERIR_CONSULTA(%L, %L, %L, %L, %L, %L, %L)', CAST(VALOR1 AS INT), CAST(VALOR2 AS INT), CAST(VALOR3 AS INT), 
-                                                               VALOR4, CAST(VALOR5 AS DATE), CAST(VALOR6 AS DATE), CAST(VALOR7 AS BOOLEAN)
+            'SELECT INSERIR_CONSULTA(%L, %L, %L, %L, %L, %L)', CAST(VALOR1 AS INT), CAST(VALOR2 AS INT), CAST(VALOR3 AS INT), 
+                                                               VALOR4, CAST(VALOR5 AS DATE), CAST(VALOR6 AS VARCHAR(1))
         );
     END IF;
 
@@ -53,8 +52,7 @@ BEGIN
 	
     IF NOME_TABELA ILIKE 'ITEM_MED' THEN
         EXECUTE FORMAT(
-            'SELECT INSERIR_ITEM_MED(%L, %L, %L, %L)', CAST(VALOR1 AS INT), CAST(VALOR2 AS INT), CAST(VALOR3 AS INT), 
-                                                           CAST(VALOR4 AS INT)
+            'SELECT INSERIR_ITEM_MED(%L, %L, %L)', CAST(VALOR1 AS INT), CAST(VALOR2 AS INT), CAST(VALOR3 AS INT)
         );
     END IF;
 
