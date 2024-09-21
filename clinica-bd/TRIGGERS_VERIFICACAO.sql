@@ -5,6 +5,9 @@ BEGIN
         IF NEW.CPF IS NULL OR NEW.CPF = '' THEN
             RAISE EXCEPTION 'O CPF do paciente não pode ser nulo ou vazio.';
         END IF;
+		IF EXISTS(SELECT CPF FROM PACIENTE WHERE CPF ILIKE NEW.CPF) THEN
+            RAISE EXCEPTION 'Um paciente já foi registrado nesse CPF.';
+        END IF;
         IF NEW.NOME IS NULL OR NEW.NOME = '' THEN
             RAISE EXCEPTION 'O nome do paciente não pode ser nulo ou vazio.';
         END IF;
